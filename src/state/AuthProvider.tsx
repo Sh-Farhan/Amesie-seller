@@ -1,8 +1,14 @@
-
+// FILE: src/state/AuthProvider.tsx
+// This file creates a central "context" for managing user state.
+// It handles both onboarding completion and the user's login session,
+// making this information available to any component in the app.
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
+// This is a placeholder for a secure storage library.
+// For native (iOS/Android), you should use a library like `expo-secure-store`.
+// For this web preview, we'll use `localStorage` as a fallback.
 const SecureStore = {
   getItemAsync: async (key: string): Promise<string | null> => {
     if (Platform.OS === 'web') {
@@ -46,7 +52,9 @@ const SecureStore = {
 interface AuthContextType {
   signIn: () => void;
   signOut: () => void;
+  completeOnboarding: () => void;
   session: string | null;
+  hasOnboarded: boolean;
   isLoading: boolean;
 }
 
@@ -67,26 +75,34 @@ export function useAuth() {
 // This component will wrap our app in `app/_layout.tsx`.
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<string | null>(null);
+  const [hasOnboarded, setHasOnboarded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // On app start, this effect runs once to check if a user session
-    // is already stored on the device.
-    const loadSession = async () => {
+    // On app start, this effect runs once to check the user's status.
+    const loadState = async () => {
       try {
-        const storedSession = await SecureStore.getItemAsync('session');
-        if (storedSession) {
-          setSession(storedSession);
+        // Check if the user has completed onboarding.
+        const onboardingStatus = await SecureStore.getItemAsync('hasCompletedOnboarding');
+        const completed = onboardingStatus === 'true';
+        setHasOnboarded(completed);
+
+        // If they have completed onboarding, then check if they have an active session.
+        if (completed) {
+          const storedSession = await SecureStore.getItemAsync('session');
+          if (storedSession) {
+            setSession(storedSession);
+          }
         }
       } catch (e) {
-        console.error('Failed to load session from storage:', e);
+        console.error('Failed to load state from storage:', e);
       } finally {
         // We're done loading, so the app can now render the correct screen.
         setIsLoading(false);
       }
     };
 
-    loadSession();
+    loadState();
   }, []);
 
   const authContextValue: AuthContextType = {
@@ -102,7 +118,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await SecureStore.deleteItemAsync('session');
       setSession(null);
     },
+    completeOnboarding: async () => {
+      // This function is called from the onboarding screen to mark it as completed.
+      await SecureStore.setItemAsync('hasCompletedOnboarding', 'true');
+      setHasOnboarded(true);
+    },
     session,
+    hasOnboarded,
     isLoading,
   };
 

@@ -3,6 +3,12 @@ import React, { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 // import { AuthProvider, useAuth } from '../src/state/AuthProvider';
 import { AuthProvider, useAuth } from '@/src/state/AuthProvider';
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+
+
+SplashScreen.preventAutoHideAsync();
+
 
 const MainLayout = () => {
   const { session, isLoading } = useAuth();
@@ -50,6 +56,16 @@ const MainLayout = () => {
 
 // The actual root component wraps the entire app in the AuthProvider
 export default function RootLayout() {
+    const [loaded] = useFonts({
+    Sen: require("../assets/fonts/Sen-VariableFont_wght.ttf"),
+  });
+
+  useEffect(() => {
+    if (loaded) SplashScreen.hideAsync();
+  }, [loaded]);
+
+  if (!loaded) return null;
+
   return (
     <AuthProvider>
       <MainLayout />
