@@ -2,17 +2,17 @@
 
 import { useState } from "react";
 import {
-    Dimensions,
-    ImageBackground,
-    KeyboardAvoidingView,
-    Platform,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Dimensions,
+  ImageBackground,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -141,10 +141,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  // headerContainer: {
-  //   alignItems: "center",
-  //   marginBottom: 20,
-  // },
   headerContainer: {
     alignItems: "center",
     marginTop:70,
@@ -163,20 +159,6 @@ const styles = StyleSheet.create({
     fontFamily: "Sen",
     marginTop: "3%",
   },
-  // overlay: {
-  //   backgroundColor: "white",
-  //   width: "100%",
-  //   borderTopLeftRadius: 20,
-  //   borderTopRightRadius: 20,
-  //   padding: 20,
-  //   alignItems: "center",
-  //   shadowColor: "#000",
-  //   shadowOffset: { width: 0, height: -2 },
-  //   shadowOpacity: 0.1,
-  //   shadowRadius: 8,
-  //   elevation: 5,
-  //   minHeight: height * 0.7, // Extends till the bottom
-  // },
   overlay: {
     backgroundColor: "white",
     width: "100%",
