@@ -74,11 +74,13 @@
 // FINAL FIX: This version uses Expo's SplashScreen module to prevent any
 // flicker or race conditions during the initial app load.
 
+import { useFonts } from "expo-font";
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useCallback, useEffect } from 'react';
 import { View } from 'react-native';
 import { AuthProvider, useAuth } from '../src/state/AuthProvider';
+
 
 // Prevent the splash screen from auto-hiding before we have determined the initial route.
 SplashScreen.preventAutoHideAsync();
@@ -135,6 +137,15 @@ const MainLayout = () => {
 };
 
 export default function RootLayout() {
+    const [loaded] = useFonts({
+    Sen: require("../assets/fonts/Sen-VariableFont_wght.ttf"),
+  });
+
+  useEffect(() => {
+    if (loaded) SplashScreen.hideAsync();
+  }, [loaded]);
+
+  if (!loaded) return null;
   return (
     <AuthProvider>
       <MainLayout />
