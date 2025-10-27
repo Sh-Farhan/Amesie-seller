@@ -25,6 +25,8 @@ const MainLayout = () => {
     }
   }, [isLoading, fontsLoaded]);
 
+
+  
   // useEffect(() => {
   //   // Wait until both auth state and fonts are ready
   //   if (isLoading || !fontsLoaded) {
@@ -33,7 +35,7 @@ const MainLayout = () => {
 
   //   const inOnboardingGroup = segments[0] === '(onboarding)';
   //   const inAuthGroup = segments[0] === '(auth)';
-  //   const inAppGroup = segments[0] === '(tabs)';
+    // const inAppGroup = segments[0] === '(tabs)';
 
   //   if (!hasOnboarded && !inOnboardingGroup) {
   //     router.replace('/(onboarding)');

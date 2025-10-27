@@ -75,7 +75,7 @@ export default function SellerDashboard() {
               <TouchableOpacity>
                 <Text style={styles.linkText}>See Details</Text>
               </TouchableOpacity>
-            </View>
+            </View>-
           </View>
 
           <View style={styles.chartContainer}>
